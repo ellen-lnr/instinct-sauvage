@@ -1,21 +1,29 @@
 <template>
-    <div v-if="chapter">
-      <h1>Chapitre {{ chapter.id }}</h1>
+  <div
+    v-if="chapter"
+    class="chapter-container"
+    :style="{ backgroundImage: `url(/images/${chapter.id}.jpg)` }"
+  >
+    <div class="chapter-overlay">
+      <h1>Instinct Sauvage 🐺</h1>
       <p>{{ chapter.content }}</p>
-  
+
       <h2>Choix :</h2>
       <ul>
         <li v-for="choice in chapter.choices" :key="choice.id">
-  <button @click="goToNextStep(choice)">
-    {{ choice.text }}
-  </button>
-</li>
+          <button @click="goToNextStep(choice)">
+            {{ choice.text }}
+          </button>
+        </li>
       </ul>
     </div>
-    <div v-else>
-      <p>Chargement du chapitre...</p>
-    </div>
-  </template>
+  </div>
+
+  <div v-else>
+    <p>Chargement du chapitre...</p>
+  </div>
+</template>
+
   
   <script setup>
   import { ref, onMounted, watch } from 'vue'
