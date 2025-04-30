@@ -24,43 +24,39 @@
   </div>
 </template>
 
-  
-  <script setup>
-  import { ref, onMounted, watch } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-  
-  const route = useRoute()
-  const router = useRouter()
-  const chapter = ref(null)
-  
-  const fetchChapter = async () => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/v1/chapters/${route.params.id}`)
-      if (!response.ok) throw new Error('Erreur lors du chargement')
-      const data = await response.json()
-      chapter.value = data.chapter
-    } catch (error) {
-      console.error('Erreur de fetch:', error)
-    }
+<script setup>
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+const chapter = ref(null)
+
+const storyId = route.params.storyId
+const chapterId = route.params.chapterId
+
+const fetchChapter = async () => {
+  try {
+    const response = await fetch(`http://localhost:8000/api/v1/stories/${storyId}/chapters/${chapterId}`)
+    if (!response.ok) throw new Error('Erreur lors du chargement')
+    const data = await response.json()
+    chapter.value = data.chapter
+  } catch (error) {
+    console.error('Erreur de fetch:', error)
   }
-  
-  const goToNextStep = (choice) => {
+}
+
+const goToNextStep = (choice) => {
   if (choice.next_chapter_id) {
-    router.push({ name: 'Chapter', params: { id: choice.next_chapter_id } })
+    router.push({ name: 'Chapter', params: { storyId, chapterId: choice.next_chapter_id } })
   } else if (choice.end_id) {
-    router.push({ name: 'End', params: { id: choice.end_id } })
+    router.push({ name: 'End', params: { storyId, id: choice.end_id } })
   } else {
     alert("Fin de l’histoire ou chapitre manquant.")
   }
 }
 
-  
-  onMounted(() => {
-    fetchChapter()
-  })
-  
-  watch(() => route.params.id, () => {
-    fetchChapter()
-  })
-  </script>
-  
+onMounted(fetchChapter)
+
+watch(() => route.params.chapterId, fetchChapter)
+</script>

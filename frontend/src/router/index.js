@@ -1,23 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
 import ChapterView from '../views/ChapterView.vue'
 import EndView from '../views/EndView.vue'
 
 const routes = [
   {
     path: '/',
-    redirect: '/chapter/1' // Commencer par le chapitre 1
+    name: 'Home',
+    component: HomeView
   },
   {
-    path: '/chapter/:id',
+    path: '/story/:storyId/chapter/:chapterId',
     name: 'Chapter',
     component: ChapterView
   },
   {
-    path: '/end/:id',
+    path: '/story/:storyId/end/:id',
     name: 'End',
     component: EndView
   }
-  
 ]
 
 const router = createRouter({
