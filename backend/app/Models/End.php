@@ -9,5 +9,10 @@ class End extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type', 'description'];
+    protected $fillable = ['type', 'description', 'story_id'];
+
+    public function story()
+    {
+        return $this->belongsTo(Story::class);
+    }
 }

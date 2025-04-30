@@ -9,10 +9,15 @@ class Chapter extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content'];
+    protected $fillable = ['content', 'story_id'];
 
     public function choices()
     {
         return $this->hasMany(Choice::class);
+    }
+
+    public function story()
+    {
+        return $this->belongsTo(Story::class);
     }
 }

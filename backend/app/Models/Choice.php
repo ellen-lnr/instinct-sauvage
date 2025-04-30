@@ -9,10 +9,15 @@ class Choice extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['chapter_id', 'text', 'next_chapter_id'];
+    protected $fillable = ['content', 'chapter_id', 'next_chapter_id', 'story_id'];
 
     public function chapter()
     {
         return $this->belongsTo(Chapter::class);
+    }
+
+    public function story()
+    {
+        return $this->belongsTo(Story::class);
     }
 }
