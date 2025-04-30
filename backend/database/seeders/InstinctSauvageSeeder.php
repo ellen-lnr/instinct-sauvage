@@ -11,118 +11,116 @@ class InstinctSauvageSeeder extends Seeder
 {
     public function run(): void
     {
-        // Fin 1 : mort
+        // Fins possibles
         $end1 = End::create([
             'type' => 'mort',
-            'description' => 'Tu as été blessé par un prédateur et n’as pas survécu.'
+            'description' => 'Ton instinct t’a trahi. Dans un dernier souffle, tu te fonds dans l’ombre de la forêt éternelle.'
         ]);
 
-        // Fin 2 : loup solitaire
         $end2 = End::create([
             'type' => 'loup_solitaire',
-            'description' => 'Tu as choisi la solitude et survécu sans meute.'
+            'description' => 'Seul mais libre, tu arpentes les étendues sauvages, survivant avec courage mais sans attache.'
         ]);
 
-        // Fin 3 : alpha
         $end3 = End::create([
             'type' => 'alpha',
-            'description' => 'Tu as formé ta propre meute et deviens un leader respecté.'
+            'description' => 'Ton charisme et ta bravoure t’ont permis de rassembler une meute fidèle. Tu régneras désormais comme Alpha.'
         ]);
 
         // Chapitre 1
         $chap1 = Chapter::create([
-            'content' => "Tu es un jeune loup solitaire. Que fais-tu ?"
+            'content' => "Le vent glacial soulève les feuilles mortes alors que tu émerges prudemment d'une anfractuosité rocheuse. Privé de ta meute, ton regard fouille les ombres mouvantes d'une forêt immense. Ton estomac crie famine et ton instinct te somme de choisir ta voie : plonger dans l'obscurité dense des bois ou longer la rivière argentée scintillant sous la lumière pâle du matin."
         ]);
 
         $chap2 = Chapter::create([
-            'content' => "Tu t’enfonces dans la forêt et tu entends des bruits étranges."
+            'content' => "L'épaisseur de la forêt t'enveloppe rapidement, réduisant les sons à de simples échos étouffés. Au détour d'un sentier, des bruissements anormaux troublent ton avancée. Est-ce un ami, ou un piège tendu par un prédateur ?"
         ]);
 
         $chap3 = Chapter::create([
-            'content' => "Tu longes la rivière et découvres un poisson encore vivant."
+            'content' => "Les galets humides de la rivière glissent sous tes pattes. L'eau claire te révèle la silhouette d'un poisson frétillant désespérément. Ta faim crie vengeance, mais ton odorat capte aussi des traces fraîches de danger alentour."
         ]);
 
         $chap4 = Chapter::create([
-            'content' => "Tu explores les bruits, et tu découvres un autre loup blessé."
+            'content' => "En t'approchant prudemment des bruits, ton museau rencontre celui d'un loup blessé. Son regard mêle détresse et défiance. T'approcheras-tu pour l'aider, ou le laisseras-tu affronter seul son destin ?"
         ]);
 
         $chap5 = Chapter::create([
-            'content' => "Tu manges le poisson et te sens rassasié. Tu entends un hurlement au loin."
+            'content' => "Après avoir apaisé ta faim, un hurlement perçant fend le silence. Quelque part, des frères ou des ennemis t'appellent. Ta réponse pourrait sceller ton avenir."
         ]);
 
         $chap6 = Chapter::create([
-            'content' => "Tu aides le loup blessé, il te remercie et te propose de rejoindre sa future meute."
+            'content' => "Ton acte de compassion t'a lié à un nouvel allié. Ensemble, vos chants solitaires vibrent bientôt à travers les collines, appelant d'autres âmes perdues à se joindre à votre future meute."
         ]);
 
         // Choices Chapitre 1
         Choice::create([
             'chapter_id' => $chap1->id,
-            'text' => "Explorer la forêt",
+            'text' => "T'aventurer sans hésitation sous la voûte sombre de la forêt",
             'next_chapter_id' => $chap2->id
         ]);
 
         Choice::create([
             'chapter_id' => $chap1->id,
-            'text' => "Suivre la rivière",
+            'text' => "Te fier à l'eau claire et suivre le murmure de la rivière",
             'next_chapter_id' => $chap3->id
         ]);
 
         // Choices Chapitre 2
         Choice::create([
             'chapter_id' => $chap2->id,
-            'text' => "Fuir les bruits",
+            'text' => "Tourner les talons, laissant derrière toi le mystère et le danger",
             'end_id' => $end1->id
         ]);
 
         Choice::create([
             'chapter_id' => $chap2->id,
-            'text' => "Aller vers les bruits",
+            'text' => "Approcher prudemment les sons inquiétants pour en découvrir l'origine",
             'next_chapter_id' => $chap4->id
         ]);
 
         // Choices Chapitre 3
         Choice::create([
             'chapter_id' => $chap3->id,
-            'text' => "Manger le poisson",
+            'text' => "Ignorer les signes de danger pour calmer ta faim immédiate",
             'next_chapter_id' => $chap5->id
         ]);
 
         Choice::create([
             'chapter_id' => $chap3->id,
-            'text' => "Laisser le poisson",
+            'text' => "Résister à l'appât facile et avancer avec prudence",
             'end_id' => $end2->id
         ]);
 
         // Choices Chapitre 4
         Choice::create([
             'chapter_id' => $chap4->id,
-            'text' => "Ignorer le loup blessé",
+            'text' => "Tourner la tête, laissant le loup blessé à son destin",
             'end_id' => $end2->id
         ]);
 
         Choice::create([
             'chapter_id' => $chap4->id,
-            'text' => "Aider le loup blessé",
+            'text' => "T'approcher malgré le risque et lui offrir ton aide",
             'next_chapter_id' => $chap6->id
         ]);
 
         // Choices Chapitre 5
         Choice::create([
             'chapter_id' => $chap5->id,
-            'text' => "Suivre le hurlement",
+            'text' => "Répondre à l'appel sauvage en suivant le hurlement lointain",
             'end_id' => $end3->id
         ]);
 
         Choice::create([
             'chapter_id' => $chap5->id,
-            'text' => "Faire demi-tour",
+            'text' => "Écouter ton instinct de survie et rebrousser chemin discrètement",
             'end_id' => $end2->id
         ]);
 
         // Chapitre 6
         Choice::create([
             'chapter_id' => $chap6->id,
-            'text' => "Accepter l’invitation à rejoindre sa meute",
+            'text' => "Accepter avec fierté de fonder une nouvelle famille sauvage",
             'end_id' => $end3->id
         ]);
     }
