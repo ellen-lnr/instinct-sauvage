@@ -1,0 +1,86 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  background-color: #000; /* fallback */
+  color: #f1faee;
+}
+
+/* Conteneur général avec image de fond */
+.chapter-container {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Overlay sombre par-dessus l’image */
+.chapter-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.chapter-overlay h1,
+.chapter-overlay h2 {
+  color: #f1faee;
+  margin-bottom: 20px;
+}
+
+.chapter-overlay p {
+  line-height: 1.7;
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #f1faee;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+}
+
+ul li {
+  margin: 10px 0;
+}
+
+/* Boutons de choix */
+button {
+  background-color: #1d3557;
+  color: #f1faee;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  max-width: 400px;
+}
+
+button:hover {
+  background-color: #457b9d;
+  transform: scale(1.05);
+}
+
+/* Responsiveness */
+@media (min-width: 768px) {
+  button {
+    font-size: 18px;
+  }
+
+  .chapter-overlay {
+    padding: 40px;
+  }
+}

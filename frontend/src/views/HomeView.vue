@@ -16,13 +16,22 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from '@/axios' // assure-toi que ce chemin est correct selon ton projet
 
+const router = useRouter()
 const stories = ref([])
 
 onMounted(async () => {
-  const response = await fetch('http://localhost:8000/api/v1/stories')
-  const data = await response.json()
-  stories.value = data.stories
+  try {
+    await axios.get('/api/user') // vérifie la connexion
+
+    const { data } = await axios.get('/api/v1/stories')
+    stories.value = data.stories
+  } catch (error) {
+    console.error('Erreur :', error)
+    router.push('/login')
+  }
 })
 </script>
 
