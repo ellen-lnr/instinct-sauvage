@@ -12,6 +12,14 @@
       <router-link to="/register">Créer un compte</router-link>
     </p>
 
+    <!-- 🧠 Erreurs spécifiques retournées par Laravel -->
+    <ul v-if="Object.keys(errors).length" class="error-list">
+      <li v-for="(messages, field) in errors" :key="field">
+        {{ messages[0] }}
+      </li>
+    </ul>
+
+    <!-- ❌ Erreur générale -->
     <p v-if="error" class="error">{{ error }}</p>
   </div>
 </template>
@@ -19,31 +27,38 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from '@/axios' // 🔗 on utilise l’instance Axios
+import axios from '@/axios'
 
 const router = useRouter()
 const email = ref('')
 const password = ref('')
 const error = ref('')
+const errors = ref({}) // ➕ pour messages détaillés de validation
 
 const login = async () => {
+  error.value = ''
+  errors.value = {}
+
   try {
-    await axios.get('/sanctum/csrf-cookie') // ⚠️ Nécessaire avec Sanctum
+    await axios.get('/sanctum/csrf-cookie')
 
     await axios.post('/api/login', {
       email: email.value,
       password: password.value
     })
 
-    error.value = ''
     router.push('/')
   } catch (e) {
-    console.error(e)
-    error.value = 'Échec de la connexion. Vérifie tes identifiants.'
+    if (e.response?.status === 422 && e.response.data?.errors) {
+      errors.value = e.response.data.errors
+    } else if (e.response?.status === 401) {
+      error.value = 'Email ou mot de passe incorrect.'
+    } else {
+      error.value = 'Une erreur est survenue. Veuillez réessayer.'
+    }
   }
 }
 </script>
-
 
 <style scoped>
 .auth-container {
@@ -80,5 +95,11 @@ button {
 .error {
   margin-top: 1rem;
   color: #ff5252;
+}
+.error-list {
+  color: #ff5252;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  list-style: disc inside;
 }
 </style>
