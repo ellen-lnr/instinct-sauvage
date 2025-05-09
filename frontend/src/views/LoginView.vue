@@ -33,7 +33,7 @@ const router = useRouter()
 const email = ref('')
 const password = ref('')
 const error = ref('')
-const errors = ref({}) // ➕ pour messages détaillés de validation
+const errors = ref({}) // erreurs de validation Laravel
 
 const login = async () => {
   error.value = ''
@@ -49,10 +49,19 @@ const login = async () => {
 
     router.push('/')
   } catch (e) {
-    if (e.response?.status === 422 && e.response.data?.errors) {
+    const message = e.response?.data?.message || ''
+
+    if (
+      e.response?.status === 422 &&
+      e.response.data?.errors &&
+      message !== 'These credentials do not match our records.'
+    ) {
       errors.value = e.response.data.errors
-    } else if (e.response?.status === 401) {
-      error.value = 'Email ou mot de passe incorrect.'
+    } else if (
+      e.response?.status === 401 ||
+      message === 'These credentials do not match our records.'
+    ) {
+      error.value = 'Adresse email ou mot de passe incorrect.'
     } else {
       error.value = 'Une erreur est survenue. Veuillez réessayer.'
     }
