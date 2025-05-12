@@ -1,6 +1,7 @@
 <template>
   <div class="auth-container">
     <h1>Connexion</h1>
+
     <form @submit.prevent="login">
       <input v-model="email" type="email" placeholder="Email" required />
       <input v-model="password" type="password" placeholder="Mot de passe" required />
@@ -12,7 +13,13 @@
       <router-link to="/register">Créer un compte</router-link>
     </p>
 
-    <!-- 🧠 Erreurs spécifiques retournées par Laravel -->
+    <!-- 🧭 Continuer sans se connecter -->
+    <router-link to="/chapter/1">
+      <button class="ghost-button">🚪 Continuer sans se connecter</button>
+    </router-link>
+
+
+    <!-- 🧠 Erreurs spécifiques Laravel -->
     <ul v-if="Object.keys(errors).length" class="error-list">
       <li v-for="(messages, field) in errors" :key="field">
         {{ messages[0] }}
@@ -23,6 +30,7 @@
     <p v-if="error" class="error">{{ error }}</p>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue'
@@ -47,7 +55,7 @@ const login = async () => {
       password: password.value
     })
 
-    router.push('/')
+    router.push('/home')
   } catch (e) {
     const message = e.response?.data?.message || ''
 
@@ -110,5 +118,15 @@ button {
   margin-top: 1rem;
   font-size: 0.9rem;
   list-style: disc inside;
+}
+.ghost-button {
+  background: transparent;
+  color: #ccc;
+  border: 1px solid #ccc;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  cursor: pointer;
+  width: 100%;
 }
 </style>

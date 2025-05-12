@@ -6,7 +6,7 @@
       <div v-for="story in stories" :key="story.id" class="story-card">
         <h2>{{ story.title }}</h2>
         <p>{{ story.description }}</p>
-        <router-link :to="`/story/${story.id}/chapter/1`">
+        <router-link to="/chapter/1">
           <button class="start-button">🚀 Commencer</button>
         </router-link>
       </div>
@@ -16,21 +16,26 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import axios from '@/axios' // assure-toi que ce chemin est correct selon ton projet
+import axios from '@/axios'
 
-const router = useRouter()
 const stories = ref([])
 
 onMounted(async () => {
   try {
-    await axios.get('/api/user') // vérifie la connexion
+  await axios.get('/api/user')
+  } catch (e) {
+    if (e.response?.status !== 401) {
+      console.error('Erreur inattendue :', e)
+    }
+    // sinon → on ignore le 401 silencieusement
+  }
 
+
+  try {
     const { data } = await axios.get('/api/v1/stories')
     stories.value = data.stories
-  } catch (error) {
-    console.error('Erreur :', error)
-    router.push('/login')
+  } catch (e) {
+    console.error('Erreur de chargement des histoires :', e)
   }
 })
 </script>

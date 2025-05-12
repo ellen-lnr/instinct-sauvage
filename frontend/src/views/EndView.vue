@@ -7,13 +7,13 @@
       <h1>Fin : {{ end.type }}</h1>
       <p>{{ end.description }}</p>
 
-      <!-- Recommencer l’histoire actuelle -->
-      <router-link :to="`/story/${storyId}/chapter/1`">
+      <!-- Recommencer depuis le début -->
+      <router-link to="/chapter/1">
         <button>🔁 Recommencer l’aventure</button>
       </router-link>
 
       <!-- Retour à la liste des histoires -->
-      <router-link to="/">
+      <router-link to="/home">
         <button>📚 Choisir une autre histoire</button>
       </router-link>
     </div>
@@ -29,18 +29,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import axios from '@/axios'
 
 const route = useRoute()
-const storyId = route.params.storyId
-const endId = route.params.id
 const end = ref(null)
 
 const fetchEnd = async () => {
   try {
-    const response = await fetch(`http://localhost:8000/api/v1/stories/${storyId}/ends/${endId}`)
-    if (!response.ok) throw new Error('Erreur lors du chargement de la fin')
-    const data = await response.json()
-    end.value = data.end
+    const response = await axios.get(`/api/v1/ends/${route.params.id}`)
+    end.value = response.data.end
   } catch (e) {
     console.error('Erreur fetch fin :', e)
   }
